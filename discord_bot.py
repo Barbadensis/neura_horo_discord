@@ -18,8 +18,7 @@ load_dotenv()
 # ========== НАСТРОЙКИ VK ==========
 vk_session = vk_api.VkApi(token=os.environ['VK_USER_TOKEN'])
 vk = vk_session.get_api()
-VK_GROUP_ID = 235947463
-
+VK_GROUP_ID = -193489972
 # ========== ДАННЫЕ ==========
 SIGNS = [
     '♈️Овен', '♉️Телец', '♊️Близнецы', '♋️Рак',
