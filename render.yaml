@@ -1,0 +1,13 @@
+services:
+  - type: worker
+    name: neural-horo-discord
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python discord_bot.py
+    envVars:
+      - key: DISCORD_TOKEN
+        sync: false
+      - key: VK_USER_TOKEN
+        sync: false
+      - key: AUTO_POST_CHANNEL_ID
+        sync: false

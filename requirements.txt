@@ -1,0 +1,4 @@
+discord.py
+vk-api
+python-dotenv
+apscheduler
