@@ -11,7 +11,8 @@ import vk_api
 from dotenv import load_dotenv
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 load_dotenv()
 
 # ========== НАСТРОЙКИ VK ==========
@@ -174,5 +175,17 @@ async def post_daily_horoscopes():
         await channel.send(msg)
         await asyncio.sleep(1)
 
+
+class HealthCheck(BaseHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.end_headers()
+        self.wfile.write(b"OK")
+
+def run_health_server():
+    server = HTTPServer(('0.0.0.0', 10000), HealthCheck)
+    server.serve_forever()
+
+threading.Thread(target=run_health_server, daemon=True).start()
 if __name__ == "__main__":
     bot.run(os.environ['DISCORD_TOKEN'])
