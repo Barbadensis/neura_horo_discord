@@ -185,6 +185,12 @@ def run_health_server():
     server = HTTPServer(('0.0.0.0', 10000), HealthCheck)
     server.serve_forever()
 
+@bot.tree.command(name="тестпост", description="Проверить автопостинг")
+async def test_post(interaction: discord.Interaction):
+    await interaction.response.defer(ephemeral=True)
+    await post_daily_horoscopes()  # Запускаем ту же функцию
+    await interaction.followup.send("✅ Автопостинг протестирован!", ephemeral=True)
+    
 threading.Thread(target=run_health_server, daemon=True).start()
 if __name__ == "__main__":
     bot.run(os.environ['DISCORD_TOKEN'])
