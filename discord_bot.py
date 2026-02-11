@@ -61,17 +61,8 @@ async def get_horoscope(sign: str, date: datetime) -> str:
             match = re.search(pattern, post['text'])
             if match:
                 horoscope = match.group(0)
-                date_text = post_date.strftime("%d.%m.%Y")
-                diff = (datetime.today().date() - post_date).days
-                if diff == 0:
-                    diff_text = "сегодня"
-                elif diff == 1:
-                    diff_text = "вчера"
-                elif diff == 2:
-                    diff_text = "позавчера"
-                else:
-                    diff_text = f"{diff} дней назад"
-                return f"{horoscope}\n\n*({date_text}, {diff_text})*"
+               
+                return f"{horoscope}"
         return f"❌ Гороскоп для {sign} на {date.strftime('%d.%m.%Y')} не найден"
     except Exception as e:
         return f"❌ Ошибка: {e}"
@@ -101,10 +92,11 @@ class HoroscopeView(View):
         date = user_dates[self.user_id]
         horoscope = await get_horoscope(sign, date)
         embed = discord.Embed(
-            title=f"🔮 {sign} | {date.strftime('%d.%m.%Y')}",
+            title=f"🔮 {sign}",
             description=horoscope,
             color=discord.Color.purple()
         )
+        embed.set_footer(text=f"📅 {date.strftime('%d.%m.%Y')}")
         await interaction.followup.send(embed=embed, view=HoroscopeView(self.user_id))
 
 class DateButton(Button):
