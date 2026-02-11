@@ -135,6 +135,8 @@ async def cmd_horoscope(interaction: discord.Interaction):
 @bot.event
 async def on_ready():
     print(f'✅ Бот {bot.user} запущен!')
+    await bot.tree.sync()
+    print("✅ Команды синхронизированы (принудительно)")
     if os.getenv('AUTO_POST_CHANNEL_ID'):
         channel_id = int(os.getenv('AUTO_POST_CHANNEL_ID'))
         bot.scheduler.add_job(
@@ -190,7 +192,7 @@ async def test_post(interaction: discord.Interaction):
     await interaction.response.defer(ephemeral=True)
     await post_daily_horoscopes()  # Запускаем ту же функцию
     await interaction.followup.send("✅ Автопостинг протестирован!", ephemeral=True)
-    
+
 threading.Thread(target=run_health_server, daemon=True).start()
 if __name__ == "__main__":
     bot.run(os.environ['DISCORD_TOKEN'])
