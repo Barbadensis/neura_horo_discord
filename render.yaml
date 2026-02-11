@@ -1,9 +1,11 @@
 services:
-  - type: worker
+  - type: web
     name: neural-horo-discord
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: python discord_bot.py
+    healthCheckPath: /
     envVars:
       - key: DISCORD_TOKEN
         sync: false
